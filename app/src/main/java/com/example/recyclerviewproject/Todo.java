@@ -11,6 +11,11 @@ class Todo {
         this.id = new Random().nextInt(99999);
     }
 
+    public Todo(int id, String task){
+        this.task = task;
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }
