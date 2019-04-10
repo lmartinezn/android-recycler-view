@@ -30,7 +30,12 @@ public class MainActivity extends AppCompatActivity {
         addButton = findViewById(R.id.button_add_todo);
         todoList = findViewById(R.id.todo_list);
 
-        prepareDummyData();
+        if(savedInstanceState != null){ //Si hi ha dades desades, les restaurem
+            this.data = savedInstanceState.getParcelableArrayList("savedData");
+        }
+        else{ //Si no, omplim amb dades per defecte
+            prepareDummyData(); //Desar les dades no servirà de res si sempre les sobreescrivim
+        }
 
        // RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
@@ -58,6 +63,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState){
+        outState.putParcelableArrayList("savedData", this.data);
+        super.onSaveInstanceState(outState);
     }
 
     private void prepareDummyData(){
