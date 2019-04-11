@@ -31,7 +31,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         //Omplir vista
-        Todo todo = data.get(1);
+        Todo todo = data.get(i);
 
         viewHolder.mId.setText(todo.getId() + "");
         viewHolder.mTask.setText(todo.getTask());
