@@ -23,7 +23,7 @@ public class MainFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static MainFragment newInstance(String param1, String param2) {
+    public static MainFragment newInstance() {
         return new MainFragment();
     }
 
