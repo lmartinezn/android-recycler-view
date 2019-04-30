@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">RecyclerView Project</string>
     <string name="add_todo">Add To Do</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
