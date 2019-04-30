@@ -15,7 +15,6 @@ import java.util.ArrayList;
 public class MainFragment extends Fragment {
     private EditText textTodo;
     private RecyclerView list;
-
     private MyAdapter mAdapter;
     private ArrayList<Todo> dataSet;
 
@@ -30,6 +29,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
     }
 
     @Override
@@ -43,7 +43,9 @@ public class MainFragment extends Fragment {
         RecyclerView.LayoutManager mLayourManager = new LinearLayoutManager(getContext());
         list.setLayoutManager(mLayourManager);
 
-        dataSet = prepareDummyData();
+        if(dataSet == null){
+          dataSet = prepareDummyData();
+        }
 
         mAdapter = new MyAdapter(dataSet);
         list.setAdapter(mAdapter);
