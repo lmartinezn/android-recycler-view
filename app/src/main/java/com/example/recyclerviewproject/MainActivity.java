@@ -3,21 +3,24 @@ package com.example.recyclerviewproject;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private EditText todoText;
     private Button addButton;
     private RecyclerView todoList;
 
-    private ArrayList<Todo>data;
     private MyAdapter mAdapter;
+    private TodoViewModel mViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +31,24 @@ public class MainActivity extends AppCompatActivity {
         addButton = findViewById(R.id.button_add_todo);
         todoList = findViewById(R.id.todo_list);
 
-        prepareDummyData();
-
        // RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
 
         todoList.setLayoutManager(mLayoutManager);
 
-        mAdapter = new MyAdapter(data);
+        mViewModel = ViewModelProviders.of(this).get(TodoViewModel.class); /* El view model
+        sobreviu als canvis d'orientació, no ens interessa crear un de nou cada cop sinó obtenir
+        la instància existent si hi ha i només si no n'hi ha cap, crear-ne un*/
+        mViewModel.getmAllTodos().observe(this, new Observer<List<Todo>>() {
+            /*Listener per a un event concret (quan hi han hagut canvis, així detectarà quan s'ha
+            d'actualitzar les dades que s'estan mostrant*/
+            @Override
+            public void onChanged(List<Todo> todos) {
+                mAdapter.setTodos(todos);
+            }
+        });
+
+        mAdapter = new MyAdapter();
         todoList.setAdapter(mAdapter);
 
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -49,20 +62,10 @@ public class MainActivity extends AppCompatActivity {
                     builder.create().show();
                 }
                 else{
-                    Todo todo = new Todo (todoText.getText().toString());
-                    data.add(todo);
-                    mAdapter.notifyDataSetChanged();
+                    mViewModel.insert(todoText.getText().toString());
                     todoText.setText("");
                 }
             }
         });
-    }
-
-    private void prepareDummyData(){
-        data = new ArrayList<>();
-        data.add(new Todo("Todo 1"));
-        data.add(new Todo("Todo 2"));
-        data.add(new Todo("Todo 3"));
-        data.add(new Todo("Todo 4"));
     }
 }

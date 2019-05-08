@@ -1,20 +1,18 @@
 package com.example.recyclerviewproject;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.Collections;
+import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
-    private ArrayList<Todo> data;
-
-    public MyAdapter(ArrayList<Todo> data) {
-        this.data = data;
-    }
+    private List<Todo> data = Collections.emptyList();
 
     @NonNull
     @Override
@@ -27,13 +25,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         return vh;
     }
 
+    public void setTodos(List<Todo> allTodos) {
+        data = allTodos;
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         //Omplir vista
         Todo todo = data.get(i);
 
-        viewHolder.mId.setText(todo.getId() + "");
-        viewHolder.mTask.setText(todo.getTask());
+        viewHolder.mId.setText(todo.id + "");
+        viewHolder.mTask.setText(todo.task);
     }
 
     @Override
